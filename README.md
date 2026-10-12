@@ -9,3 +9,5 @@ Static company site for Deep Robotics, Inc. No build step: Vercel serves the fil
 
 Every push to `main` deploys to production once the repo is connected to the `deep-robotics` Vercel project.
 
+
+Images are cached for a year, so a changed image must get a new file name.
