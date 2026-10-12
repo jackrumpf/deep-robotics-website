@@ -15,11 +15,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="/img/hero-silhouette.webp">
+<link rel="preload" as="image" href="/img/hero-stage.webp">
 <style>
-  /* One dark hero carrying a low-key silhouette of the system; everything else is short text on black. */
+  /* Hero: headline left, the backlit "stage" graphic right and bleeding off the edge. Below: short text sections on black, divided by hairlines. */
   :root {
     --black: #08090a;
+    --raise: #0e1012;
     --rule: #22252a;
     --dim: #7c8187;       /* secondary text */
     --text: #c3c7cc;      /* body text */
@@ -40,9 +41,9 @@
   .wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
 
   h1, h2 { font-family: var(--display); color: var(--white); font-weight: 700; text-transform: uppercase; margin: 0; text-wrap: balance; }
-  h1 { font-size: clamp(1.5rem, 4.2vw, 3.6rem); line-height: 1.1; letter-spacing: 0.01em; max-width: 16ch; }
-  h2 { font-size: clamp(1.25rem, 2.4vw, 1.9rem); line-height: 1.2; letter-spacing: 0.02em; }
-  h3 { font-family: var(--display); color: var(--white); font-size: .9375rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; }
+  h1 { font-size: clamp(1.5rem, 3.6vw, 3.25rem); line-height: 1.1; letter-spacing: 0.01em; }
+  h2 { font-size: clamp(1.2rem, 2.3vw, 1.8rem); line-height: 1.22; letter-spacing: 0.02em; }
+  h3 { font-family: var(--display); color: var(--white); font-size: .875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 10px; line-height: 1.4; }
   p { margin: 0 0 1.1em; max-width: 60ch; }
 
   /* header */
@@ -54,43 +55,73 @@
   nav ul { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
   nav a { text-decoration: none; font-family: var(--display); font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
   nav a:hover { color: var(--white); }
-  @media (max-width: 480px) { .mark .word { display: none; } nav ul { gap: 22px; } }
+  @media (max-width: 760px) { nav .opt { display: none; } }
+  @media (max-width: 480px) { .mark .word { display: none; } }
 
   /* hero */
-  .hero { position: relative; min-height: min(900px, 100svh); display: flex; align-items: center; overflow: hidden; background: var(--black); }
-  .hero-art { position: absolute; z-index: 0; right: calc((100vw - var(--max)) / 2 - 120px); top: 50%; transform: translateY(-40%); width: min(840px, 57%); pointer-events: none; }
-  .hero-art img { width: 100%; }
-  .hero-copy { position: relative; z-index: 2; width: 100%; padding-block: 140px 96px; }
-  .hero-copy p { font-size: 1.125rem; margin-top: 28px; max-width: 46ch; }
-  .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; margin-top: 12px; border: 1px solid var(--gold); color: var(--white); text-decoration: none; font-family: var(--display); font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; border-radius: 2px; transition: background .15s, color .15s; }
+  .hero { position: relative; padding-block: 132px 40px; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: 16px; }
+  .hero-copy { position: relative; z-index: 2; min-width: 0; }
+  .hero-copy p { font-size: 1.125rem; margin-top: 26px; max-width: 42ch; }
+  .ctas { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 34px; }
+  .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border: 1px solid var(--gold); color: var(--white); text-decoration: none; font-family: var(--display); font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; border-radius: 2px; transition: background .15s, color .15s; }
   .btn:hover { background: var(--gold); color: var(--black); }
+  .textlink { font-size: .9375rem; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--rule); padding-bottom: 2px; }
+  .textlink:hover { color: var(--white); border-color: var(--dim); }
+  .hero-art { position: relative; z-index: 1; min-width: 0; margin-right: calc(var(--gutter) * -1); }
+  .hero-art img { width: 116%; max-width: none; margin-left: -8%; }
   @media (prefers-reduced-motion: no-preference) {
-    .hero-art img { animation: rise 1.8s cubic-bezier(.2,.7,.2,1) both; }
-    @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
+    .hero-art img { animation: lightup 2.2s cubic-bezier(.3,.6,.2,1) both; }
+    @keyframes lightup { from { opacity: 0; filter: brightness(.4); } to { opacity: 1; filter: none; } }
   }
-  @media (max-width: 820px) {
-    .hero { min-height: 0; flex-direction: column; align-items: stretch; }
-    .hero-copy { padding-block: 120px 0; }
-    .hero-art { position: relative; order: 2; right: auto; top: auto; transform: none; width: 112%; margin: 24px -6% 0; }
+  @media (max-width: 900px) {
+    .hero { padding-block: 116px 8px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { margin: 8px calc(var(--gutter) * -1) 0; }
+    .hero-art img { width: 112%; margin-left: -6%; }
   }
 
-  /* about */
-  section.block { padding-block: clamp(80px, 11vw, 144px); border-top: 1px solid var(--rule); }
+  section.block { padding-block: clamp(80px, 10vw, 136px); border-top: 1px solid var(--rule); }
   .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
   .split > * { min-width: 0; }
   @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
-  .loop { list-style: none; margin: clamp(56px, 8vw, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
-  .loop li { padding: 26px 28px 0 0; min-width: 0; }
+
+  .points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 12px; }
+  .points li { position: relative; padding-left: 22px; max-width: 56ch; }
+  .points li::before { content: ""; position: absolute; left: 0; top: .66em; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--gold); }
+
+  /* the loop: a real sequence */
+  .loop { list-style: none; margin: clamp(48px, 7vw, 80px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); counter-reset: step; border-top: 1px solid var(--rule); }
+  .loop li { counter-increment: step; padding: 26px 28px 0 0; min-width: 0; position: relative; }
   .loop li + li { padding-left: 28px; border-left: 1px solid var(--rule); }
+  .loop li::before { content: counter(step, decimal-leading-zero); display: block; font-family: var(--display); font-size: .75rem; color: var(--gold); letter-spacing: .12em; margin-bottom: 12px; }
   .loop p { color: var(--dim); font-size: 1rem; margin: 0; }
-  .loop h3::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 12px; border-radius: 50%; border: 1.5px solid var(--gold); vertical-align: 1px; }
   @media (max-width: 680px) {
     .loop { grid-template-columns: 1fr; }
     .loop li, .loop li + li { padding: 22px 0; border-left: 0; }
     .loop li + li { border-top: 1px solid var(--rule); }
   }
 
+  /* principles */
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: clamp(40px, 6vw, 64px); background: var(--rule); border: 1px solid var(--rule); }
+  .pillars > div { background: var(--black); padding: clamp(24px, 3.4vw, 40px); min-width: 0; }
+  .pillars p { color: var(--dim); font-size: 1rem; margin: 0; }
+  @media (max-width: 680px) { .pillars { grid-template-columns: 1fr; } }
+
+  /* team */
+  .people { list-style: none; margin: clamp(40px, 6vw, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
+  .people li { padding: 24px 24px 0 0; min-width: 0; }
+  .people li + li { padding-left: 24px; border-left: 1px solid var(--rule); }
+  .people h3 { margin-bottom: 4px; }
+  .people p { color: var(--dim); font-size: .9375rem; margin: 0; }
+  @media (max-width: 680px) {
+    .people { grid-template-columns: 1fr; }
+    .people li, .people li + li { padding: 20px 0; border-left: 0; }
+    .people li + li { border-top: 1px solid var(--rule); }
+  }
+
   /* contact */
+  .contact { background: var(--raise); }
   .contact-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
   .contact-row p { margin: 18px 0 0; }
   .email { font-family: var(--display); font-size: clamp(1rem, 2.2vw, 1.5rem); color: var(--white); text-decoration: none; letter-spacing: .03em; border-bottom: 1px solid var(--gold); padding-bottom: 4px; overflow-wrap: anywhere; }
@@ -111,7 +142,9 @@
     </a>
     <nav aria-label="Primary">
       <ul>
-        <li><a href="#about">About</a></li>
+        <li class="opt"><a href="#about">About</a></li>
+        <li class="opt"><a href="#approach">Approach</a></li>
+        <li class="opt"><a href="#team">Team</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -120,11 +153,18 @@
 
 <main>
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-art"><img src="/img/hero-silhouette.webp" width="1600" height="998" fetchpriority="high" alt=""></div>
-    <div class="wrap hero-copy">
-      <h1 id="hero-title">Autonomous ground infrastructure for unmanned fleets</h1>
-      <p>We take people out of the ground loop: recovering, servicing and relaunching uncrewed aircraft at forward and remote sites.</p>
-      <a class="btn" href="#contact">Contact us</a>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 id="hero-title">Autonomous ground infrastructure for unmanned fleets</h1>
+        <p>We take people out of the ground loop: recovering, servicing and relaunching uncrewed aircraft at forward and remote sites.</p>
+        <div class="ctas">
+          <a class="btn" href="#contact">Request a briefing</a>
+          <a class="textlink" href="#about">What we do</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="/img/hero-stage.webp" width="1600" height="1026" fetchpriority="high" alt="Silhouettes of two robotic arms working over a small uncrewed aircraft on a lit landing pad.">
+      </div>
     </div>
   </section>
 
@@ -133,26 +173,60 @@
       <div class="split">
         <h2 id="about-title">Unmanned fleets still run on human logistics</h2>
         <div>
-          <p>Every uncrewed aircraft in the field depends on a crew on the ground to recover it, check it, recharge it and send it back out. As fleets grow, that burden grows with them.</p>
-          <p>Deep Robotics builds the autonomous infrastructure that closes that loop. Our systems handle the turnaround at the point of landing, reduce the people needed at forward positions, and are designed to work across platforms rather than for a single airframe.</p>
-          <p>Our first system is in development. Briefings are available to government and industry partners on request.</p>
+          <p>A small uncrewed aircraft can fly for under an hour. Then someone on the ground has to recover it, check it over, restore its power and send it back out. At a forward or remote site, that person is the scarce resource, and every additional aircraft adds to the load.</p>
+          <ul class="points">
+            <li>Every additional vehicle adds to the ground-support burden.</li>
+            <li>Manual servicing limits turnaround and persistent operations.</li>
+            <li>Different platforms need different ground equipment and procedures.</li>
+          </ul>
         </div>
       </div>
-      <ul class="loop">
-        <li><h3>Recover</h3><p>Receive returning aircraft without an operator on site.</p></li>
-        <li><h3>Service</h3><p>Inspect and restore each aircraft at the point of landing.</p></li>
-        <li><h3>Relaunch</h3><p>Clear it for the next mission and send it back out.</p></li>
+      <ol class="loop" aria-label="The ground loop we automate">
+        <li><h3>Recover</h3><p>Detect and receive returning aircraft without an operator on site.</p></li>
+        <li><h3>Service</h3><p>Inspect each aircraft and restore it at the point of landing.</p></li>
+        <li><h3>Relaunch</h3><p>Verify it is ready, clear the pad and send it back to the mission.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="approach" aria-labelledby="approach-title">
+    <div class="wrap">
+      <div class="split">
+        <h2 id="approach-title">Infrastructure, not airframes</h2>
+        <div>
+          <p>Deep Robotics builds the ground layer that keeps drone operations persistent. We don't build aircraft. We build the systems that receive them, look after them and get them back in the air, so that fleets can grow without the ground crew growing with them.</p>
+        </div>
+      </div>
+      <div class="pillars">
+        <div><h3>Unattended</h3><p>A full turnaround with nobody at the landing point, so operators stay with the mission instead of the aircraft.</p></div>
+        <div><h3>Platform-agnostic</h3><p>Built to service more than one airframe from the same system, rather than tying a site to a single aircraft.</p></div>
+        <div><h3>Field-ready</h3><p>Sized for forward and remote sites, set up on unprepared ground and run from standard power.</p></div>
+        <div><h3>Safe by design</h3><p>The pad is monitored for debris and faults, and the system shuts down safely the moment something is wrong.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="team" aria-labelledby="team-title">
+    <div class="wrap">
+      <div class="split">
+        <h2 id="team-title">Years in the making</h2>
+        <p>We've set robotics records, won multiple hackathons, founded a collegiate rocket team and worked on defense technology before. Taking on hard, unfamiliar problems together is nothing new to us.</p>
+      </div>
+      <ul class="people">
+        <li><h3>Jack Rumpf</h3><p>Hardware and systems</p></li>
+        <li><h3>Yoyi Xie</h3><p>Mechanical and robotics</p></li>
+        <li><h3>Anyi Lin</h3><p>Autonomy and controls</p></li>
       </ul>
     </div>
   </section>
 
-  <section class="block" id="contact" aria-labelledby="contact-title">
+  <section class="block contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap contact-row">
       <div>
-        <h2 id="contact-title">Get in touch</h2>
-        <p>For partnership and briefing requests.</p>
+        <h2 id="contact-title">Request a briefing</h2>
+        <p>Our first system is in development. Briefings are available to government and industry partners on request.</p>
       </div>
-      <a class="email" href="mailto:support@deep-robotics.us">support@deep-robotics.us</a>
+      <a class="email" href="mailto:support@deep-robotics.us?subject=Briefing%20request">support@deep-robotics.us</a>
     </div>
   </section>
 </main>
