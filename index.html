@@ -108,17 +108,6 @@
   .pillars p { color: var(--dim); font-size: 1rem; margin: 0; }
   @media (max-width: 680px) { .pillars { grid-template-columns: 1fr; } }
 
-  /* team */
-  .people { list-style: none; margin: clamp(40px, 6vw, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
-  .people li { padding: 24px 24px 0 0; min-width: 0; }
-  .people li + li { padding-left: 24px; border-left: 1px solid var(--rule); }
-  .people h3 { margin-bottom: 4px; }
-  .people p { color: var(--dim); font-size: .9375rem; margin: 0; }
-  @media (max-width: 680px) {
-    .people { grid-template-columns: 1fr; }
-    .people li, .people li + li { padding: 20px 0; border-left: 0; }
-    .people li + li { border-top: 1px solid var(--rule); }
-  }
 
   /* contact */
   .contact { background: var(--raise); }
@@ -210,16 +199,8 @@
     <div class="wrap">
       <div class="split">
         <h2 id="team-title">Engineers from aerospace and defense</h2>
-        <div>
-          <p>Our founding team brings hands-on experience from commercial spaceflight, the defense industry and the U.S. Air Force, and the depth to take flight hardware from design through build and test.</p>
-          <p>Members of our team hold active security clearances.</p>
-        </div>
+        <p>Our founding team brings hands-on experience from commercial spaceflight, the defense industry and the U.S. Air Force, and the depth to take flight hardware from design through build and test.</p>
       </div>
-      <ul class="people">
-        <li><h3>Mechanical and robotics</h3><p>Robotic manipulation, mechanism design and precision hardware, with experience at a commercial launch provider.</p></li>
-        <li><h3>Autonomy and controls</h3><p>Perception, localization and control for autonomous systems, with experience supporting the U.S. Air Force.</p></li>
-        <li><h3>Hardware and systems</h3><p>Systems engineering and test, from liquid rocket propulsion and test infrastructure to defense systems.</p></li>
-      </ul>
     </div>
   </section>
 
